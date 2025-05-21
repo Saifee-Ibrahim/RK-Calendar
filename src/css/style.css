@@ -1,0 +1,572 @@
+body {
+        font-family: "Prompt", sans-serif;
+        background-image: linear-gradient(
+          to bottom right,
+          #db8471,
+          #94B2EC,
+          #d2dc75
+        ); /* โทนสีฟ้า Gradient */
+        color: #e5e7eb; /* Default light text color for better contrast on gradient */
+      }
+      .tab-button.active {
+        border-bottom-width: 4px;
+        border-color: #0f2167; /* Blue underline for active tab */
+        color: #0f2167;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+      }
+      .tab-button {
+        transition: all 0.3s ease-in-out;
+        color: #1e40af;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        margin: 0 0.25rem;
+      }
+      .tab-button:hover {
+        color: #0f2167;
+        background: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+      }
+      .calendar-day {
+        min-height: 100px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .calendar-day:hover {
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        transform: translateY(-1px);
+      }
+      .calendar-day:hover .date-number-wrapper {
+        transform: scale(1.1);
+      }
+      .date-number-wrapper.bg-blue-300 {
+        /* For activity day */
+        background: linear-gradient(135deg, #8dacd3 0%, #93b5e1 100%) !important;
+        color: #1e40af !important;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(15, 33, 103, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      .date-number-wrapper.bg-pink-300 {
+        /* For holiday */
+        background: linear-gradient(135deg, #f19ecd 0%, #f7b3d7 100%) !important;
+        color: #831843 !important;
+        font-weight: 700;
+        text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 4px rgba(131, 24, 67, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      .date-number-wrapper {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-bottom: 0.25rem;
+        transition: all 0.2s ease;
+      }
+      .activity-dot {
+        /* No longer used, replaced by text in calendar */
+        /* width: 8px; height: 8px; background-color: #60a5fa; border-radius: 50%; display: inline-block; margin-left: 4px; */
+      }
+      .activity-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        min-width: 350px;
+      }
+      .flatpickr-calendar {
+        font-family: "Prompt", sans-serif;
+      }
+      /* Department Colors for Table Badges */
+      .department-color-วิชาการ {
+        background-color: #3498db;
+        color: white;
+      }
+      .department-color-งบประมาณ {
+        background-color: #2ecc71;
+        color: white;
+      }
+      .department-color-บุคคล {
+        background-color: #e74c3c;
+        color: white;
+      }
+      .department-color-ทั่วไป {
+        background-color: #f1c40f;
+        color: black;
+      }
+      .department-color-นวัตกรรม {
+        background-color: #9b59b6;
+        color: white;
+      }
+      .department-color-ปกครอง {
+        background-color: #e67e22;
+        color: white;
+      }
+      .department-color-อาคารสถานที่ {
+        background-color: #1abc9c;
+        color: white;
+      }
+      .department-color-โครงการสานฝันฯ {
+        background-color: #34495e;
+        color: white;
+      }
+      .department-color-โครงการประชารัฐฯ {
+        background-color: #7f8c8d;
+        color: white;
+      }
+      .department-color-โครงการพระราชดำริ {
+        background-color: #d35400;
+        color: white;
+      }
+      /* Ensure input text is readable */
+      input[type="text"],
+      input[type="date"],
+      select,
+      textarea {
+        color: #1f2937; /* Darker text for input fields */
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-radius: 0.75rem !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: #1a1a1a !important;
+        font-weight: 500;
+      }
+      input::placeholder,
+      textarea::placeholder {
+        color: #6b7280;
+      }
+      .flatpickr-input {
+        background-color: rgba(255, 255, 255, 0.7) !important;
+      }
+
+      /* Modern glass-morphism styles */
+      main > .tab-content > .flex > div[class*="bg-opacity"][class*="backdrop-blur"],
+      main > .tab-content > .grid > div[class*="bg-opacity"][class*="backdrop-blur"],
+      main > .tab-content .lg\:w-2\/5 > div[class*="bg-opacity"][class*="backdrop-blur"] {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.92) 0%,
+          rgba(255, 255, 255, 0) 100%
+        ) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        color: #1a1a1a;
+      }
+
+      /* Header and Footer styles */
+      header[class*="bg-opacity"][class*="backdrop-blur"],
+      footer[class*="bg-opacity"] {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.50) 0%,
+          rgba(255, 255, 255, 0.50) 100%
+        ) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+      }
+
+      header[class*="bg-opacity"][class*="backdrop-blur"] {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+      }
+
+      footer[class*="bg-opacity"] {
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.07);
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.50) 0%,
+          rgba(255, 255, 255, 0.50) 100%
+        ) !important;
+      }
+
+      /* Header text styles */
+      header h1 {
+        color: #0f2167;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+
+      /* Footer text styles */
+      footer {
+        color: rgba(255, 255, 255, 0.95) !important;
+        font-weight: 600;
+      }      footer p {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0),
+                     0 2px 4px rgba(0, 0, 0, 0);
+        letter-spacing: 0.3px;
+      }
+
+      /* Activity Form Modal */
+      #activityFormModal .bg-white {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(255, 255, 255, 0.85) 100%
+        ) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.3);
+      }
+      
+      #activityFormModal label {
+        color: #0f2167;
+        font-weight: 600;
+      }
+      
+      #activityFormModal h2 {
+        color: #0f2167;
+        font-weight: 800;
+        border-bottom: 2px solid rgba(15, 33, 103, 0.2);
+        padding-bottom: 0.5rem;
+      }
+
+      /* Calendar grid container */
+      #calendarGrid {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 0.75rem;
+        padding: 0.75rem;
+        margin-top: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      /* Calendar header styles */
+      .calendar-header {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(255, 255, 255, 0.98) 100%
+        );
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      .calendar-month {
+        color: #0f2167;
+        font-size: 1.75rem;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-align: center;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 0.5rem;
+        border: 2px solid rgba(15, 33, 103, 0.15);
+      }
+
+      .calendar-weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .calendar-weekday {
+        color: #1a1a1a; /* Darker text for weekday names */
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-align: center;
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 0.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      /* Calendar days */
+      .calendar-day .date-number {
+        font-weight: 600;
+        color: #0f2167;
+        font-size: 1.1rem;
+        padding: 0.25rem;
+      }
+
+      /* Popup styling with refined glass effect */
+      #activityDetailPopup[class*="bg-opacity"][class*="backdrop-blur"] {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.8) 0%,
+          rgba(255, 255, 255, 0.7) 100%
+        ) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+      }
+
+      /* Table header styling */
+      thead[class*="bg-opacity"] {
+        background: linear-gradient(
+          to right,
+          rgba(30, 58, 138, 0.95),
+          rgba(30, 64, 175, 0.95)
+        ) !important;
+        color: white;
+      }
+
+      /* Table row hover effect */
+      tbody tr:hover {
+        background-color: rgba(219, 234, 254, 0.3) !important;
+      }
+
+      /* Table cell styles */
+      tbody tr {
+        border-bottom: 1px solid rgba(219, 234, 254, 0.2);
+      }
+
+      tbody tr td {
+        color: #1e40af;
+      }
+
+      /* Enhanced text styles for better readability */
+      h1, h2, h3 {
+        color: #0f2167;
+        font-weight: 800;
+        border-bottom: 2px solid rgba(15, 33, 103, 0.3);
+        padding-bottom: 0.25rem;
+        margin-bottom: 1rem;
+      }
+
+      h4, .content-title {
+        color: #0f2167;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.3px;
+      }
+
+      /* Box titles refinements */
+      main .tab-content h3 {
+        color: #0f2167;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid rgba(15, 33, 103, 0.2);
+        letter-spacing: 0.5px;
+      }
+
+      /* Activity list enhancements */
+      #activityList div {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      /* Table text refinements */
+      thead th {
+        font-weight: 600;
+        text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+        letter-spacing: 0.5px;
+      }
+
+      tbody td {
+        color: #1f2937;
+        font-weight: 500;
+      }
+
+      /* Text enhancement styles */
+      h1, h2, h3 {
+        color: #0f2167;  /* สีน้ำเงินเข้มมาก */
+        font-weight: 800;
+      }
+
+      h4, .content-title {
+        color: #0f2167;  /* ปรับให้เข้มเท่ากับหัวข้ออื่น */
+        font-weight: 700;
+      }
+
+      /* Box titles specific styles */
+      main .tab-content h3 {
+        color: #0f2167;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid rgba(15, 33, 103, 0.2);
+      }
+
+      /* Activity list text enhancement */
+      #activityList div {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      #activityList div:hover {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+      }
+
+      #activityList h4 {
+        color: #0f2167;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.3px;
+      }
+
+      #activityList p {
+        color: #1e3a8a;
+        font-weight: 500;
+      }
+
+      /* Form and input enhancements */
+      label {
+        color: #1a1a1a;
+        font-weight: 500;
+        text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Table text enhancement */
+      table {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      thead th {
+        font-weight: 600;
+        text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+      }
+
+      tbody td {
+        color: #1a1a1a;
+        font-weight: 500;
+      }
+
+      /* Chart containers enhancement */
+      canvas {
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+      }
+
+      /* Button text enhancement */
+      button {
+        text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+        font-weight: 500;
+      }
+
+      /* Activity indicators in calendar */
+      .text-[10px].bg-blue-500 {
+        background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%) !important;
+        color: white !important;
+        font-weight: 500;
+        padding: 0.25rem 0.5rem !important;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        margin: 1px 0;
+      }
+
+      /* More activities indicator */
+      .text-[10px].text-blue-200 {
+        color: #1e40af !important;
+        font-weight: 600;
+        font-size: 0.7rem !important;
+        text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.5);
+        padding: 0.15rem 0.5rem;
+        border-radius: 3px;
+        margin-top: 0.25rem;
+      }
+
+      /* Activity indicators styling */
+      .activity-indicator-container {
+        margin-top: 0.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 0 2px;
+        max-height: calc(100% - 35px);
+        overflow-y: hidden;
+      }
+
+      .activity-text {
+        background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+        color: white;
+        font-weight: 500;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        font-size: 0.7rem;
+        line-height: 1.2;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-clamp: 2;
+        text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+        margin: 0 -2px;
+        word-break: break-word;
+      }
+
+      .more-activities {
+        color: #1e40af;
+        font-weight: 600;
+        font-size: 0.7rem;
+        text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.5);
+        padding: 0.15rem 0.5rem;
+        border-radius: 3px;
+        text-align: center;
+        margin: 0 -2px;
+      }
+
+      /* Holiday styles */
+      .calendar-day[data-holiday="true"] {
+        background: rgba(255, 255, 255, 0.85); /* Reset background to normal */
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .calendar-day[data-holiday="true"] .date-number-wrapper {
+        background: linear-gradient(135deg, #f19ecd 0%, #f7b3d7 100%) !important;
+        color: #831843 !important;
+        font-weight: 700;
+      }
+
+      .calendar-day[data-holiday="true"] .holiday-name {
+        color: #831843;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-align: center;
+        padding: 0.25rem;
+        background: rgba(247, 179, 215, 0.2);
+        border-radius: 4px;
+        margin: 0 -2px;
+        line-height: 1.2;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-clamp: 2;
+        word-break: break-word;
+      }
